@@ -6,7 +6,14 @@ set(CMAKE_C_STANDARD 11)
 include_directories("C:/raylib/raylib/src")
 link_directories("C:/raylib/raylib/src")
 
-add_executable(Projet_C_Casino main.c)
+set(SOURCES
+        main.c
+        accueil.c
+        menu.c
+        chicken.c
+)
+
+add_executable(Projet_C_Casino ${SOURCES})
 
 target_link_libraries(Projet_C_Casino raylib)
 
