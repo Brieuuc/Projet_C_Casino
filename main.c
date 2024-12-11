@@ -1,9 +1,9 @@
 #include <raylib.h>
 #include <stdlib.h>
-
 #include "accueil.h"
 #include "chicken.h"
 #include "menu.h"
+#include "userprofile.h"
 
 typedef enum {
     PAGE_ACCUEIL,
@@ -22,6 +22,10 @@ int main() {
 
     Page currentPage = PAGE_ACCUEIL;
 
+    UserProfile userProfile;
+    InitializeOrLoadUserProfile(&userProfile);  // Charger ou créer un profil utilisateur
+
+
     // Pointeur vers l'état du jeu
     GameState* chickenGameState = NULL;
     bool gameStarted = false;
@@ -29,7 +33,7 @@ int main() {
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(DARKGREEN);
-
+        DisplayUserBalance(&userProfile);
         switch (currentPage) {
             case PAGE_ACCUEIL:
                 if (DrawAccueil(screenWidth, screenHeight)) {
@@ -50,9 +54,9 @@ int main() {
                         }
                     }
                 } else if (selectedGame == 2) {
-                    currentPage = PAGE_JEU2;
+                    currentPage = PAGE_MENU;
                 } else if (selectedGame == 3) {
-                    currentPage = PAGE_JEU3;
+                    currentPage = PAGE_MENU;
                 }
                 break;
 
