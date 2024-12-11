@@ -1,4 +1,6 @@
 #include <raylib.h>
+#include <stdlib.h>
+
 #include "accueil.h"
 #include "chicken.h"
 #include "menu.h"
@@ -20,6 +22,10 @@ int main() {
 
     Page currentPage = PAGE_ACCUEIL;
 
+    // Pointeur vers l'état du jeu
+    GameState* chickenGameState = NULL;
+    bool gameStarted = false;
+
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(DARKGREEN);
@@ -35,6 +41,14 @@ int main() {
                 int selectedGame = DrawMenu(screenWidth, screenHeight);
                 if (selectedGame == 1) {
                     currentPage = PAGE_JEU1;
+                    if (!gameStarted) {
+                        // Allouer dynamiquement la mémoire pour GameState
+                        chickenGameState = (GameState*)malloc(sizeof(GameState));
+                        if (chickenGameState != NULL) {
+                            InitializeGameState(chickenGameState); // Initialiser l'état du jeu
+                            gameStarted = true;
+                        }
+                    }
                 } else if (selectedGame == 2) {
                     currentPage = PAGE_JEU2;
                 } else if (selectedGame == 3) {
@@ -43,30 +57,33 @@ int main() {
                 break;
 
             case PAGE_JEU1:
-                DrawText("Jeu 1 - Chicken Game", screenWidth / 2 - MeasureText("Jeu 1 - Chicken Game", 20) / 2, screenHeight / 2, 20, WHITE);
-                // Appuyer sur BACKSPACE pour revenir au menu
-                if (IsKeyPressed(KEY_BACKSPACE)) {
-                    currentPage = PAGE_MENU;
+                if (chickenGameState != NULL) {
+                    UpdateGame(chickenGameState); // Mettre à jour l'état du jeu à chaque frame
+                    DrawChicken(screenWidth, screenHeight, chickenGameState); // Dessiner le jeu
+
+                    // Si la partie est terminée, réinitialiser le jeu
+                    if (!chickenGameState->gameStarted) {
+                        // Le joueur a perdu ou a terminé la grille, donc on redémarre le jeu
+                        currentPage = PAGE_MENU;
+                        gameStarted = false;  // Arrêter le jeu
+
+                        // Libérer la mémoire allouée pour GameState
+                        free(chickenGameState);
+                        chickenGameState = NULL; // Réinitialiser le pointeur
+                    }
                 }
                 break;
 
             case PAGE_JEU2:
-                currentPage = PAGE_MENU;
                 break;
 
             case PAGE_JEU3:
-                currentPage = PAGE_MENU;
                 break;
-        }
-
-        // Gérer la fermeture de la fenêtre : si l'utilisateur presse BACKSPACE sur la page d'accueil ou du menu
-        if (WindowShouldClose() && (currentPage == PAGE_ACCUEIL || currentPage == PAGE_MENU)) {
-            break; // Fermer l'application si on est dans ces pages
         }
 
         EndDrawing();
     }
 
-    CloseWindow();
+    CloseWindow(); // Fermer la fenêtre
     return 0;
 }
