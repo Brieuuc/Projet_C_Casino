@@ -4,7 +4,7 @@
 #include <time.h>
 
 #define GRID_SIZE 5        // Taille de la grille (5x5)
-#define NUM_CHICKENS 15    // Nombre de poulets
+#define NUM_CHICKENS 20    // Nombre de poulets
 
 void InitializeGameState(GameState* gameChicken) {
     gameChicken->bet = 100;
@@ -85,7 +85,9 @@ void DrawChicken(int screenWidth, int screenHeight, GameState* gameChicken) {
             Color cellColor = gameChicken->grid[i][j].isRevealed ? LIGHTGRAY : DARKGRAY;
 
             // Dessiner chaque cellule
+
             DrawRectangle(gameChicken->grid[i][j].x * 100, gameChicken->grid[i][j].y * 100, 100, 100, cellColor);
+
 
             // Dessiner un texte pour chaque cellule révélée
             if (gameChicken->grid[i][j].isRevealed) {
@@ -95,6 +97,7 @@ void DrawChicken(int screenWidth, int screenHeight, GameState* gameChicken) {
                     DrawText("O", gameChicken->grid[i][j].x * 100 + 35, gameChicken->grid[i][j].y * 100 + 35, 30, GRAY);
                 }
             }
+            DrawRectangleLines(gameChicken->grid[i][j].x * 100, gameChicken->grid[i][j].y * 100, 100, 100, BLACK);
         }
     }
 
