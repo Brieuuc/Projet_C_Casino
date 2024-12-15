@@ -2,6 +2,7 @@
 #define CHICKEN_H
 
 #define GRID_SIZE 5
+#include "userprofile.h"
 
 typedef struct Cell {
     int x;
@@ -15,10 +16,13 @@ typedef struct gameStateChicken {
     int multiplier;
     Cell grid[GRID_SIZE][GRID_SIZE];
     bool gameStarted;
+    bool isGameIntro;
 } GameState;
 
-void InitializeGameState(GameState* gameChicken);
+void InitializeGameState(GameState* gameChicken,UserProfile* userProfile);
 void UpdateGame(GameState* gameChicken);
-void DrawChicken(int screenWidth, int screenHeight, GameState* gameChicken);
+void DrawChickenGrid(GameState* gameChicken, bool isEnded);
+void DrawChicken(int screenWidth, int screenHeight, GameState* gameChicken, UserProfile* userProfile);
+
 
 #endif

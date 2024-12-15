@@ -11,6 +11,7 @@ set(SOURCES
         accueil.c
         menu.c
         chicken.c
+        userprofile.c
 )
 
 add_executable(Projet_C_Casino ${SOURCES})
