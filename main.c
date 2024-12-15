@@ -1,4 +1,5 @@
 #include <raylib.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include "accueil.h"
 #include "chicken.h"
@@ -9,8 +10,7 @@ typedef enum {
     PAGE_ACCUEIL,
     PAGE_MENU,
     PAGE_JEU1,
-    PAGE_JEU2,
-    PAGE_JEU3
+    PAGE_STATS
 } Page;
 
 int main() {
@@ -46,6 +46,9 @@ int main() {
                 if (selectedGame == 1) {
                     currentPage = PAGE_JEU1;
                 }
+                 else if (selectedGame == 4) {
+                    currentPage = PAGE_STATS;
+                }
                 break;
 
             case PAGE_JEU1:
@@ -55,7 +58,7 @@ int main() {
                     if (chickenGameState != NULL) {
                         userProfile.tokens -= 100;
                         SaveUserProfile(&userProfile);
-                        InitializeGameState(chickenGameState); // Initialiser l'état du jeu
+                        InitializeGameState(chickenGameState, &userProfile); // Initialiser l'état du jeu
                         gameStarted = true;
                     }
                 }
@@ -68,6 +71,10 @@ int main() {
                     }
                 }
             break;
+            case PAGE_STATS:
+                if (DisplayStats(&userProfile) == 1){
+                    currentPage = PAGE_MENU;}
+                break;
 
         }
 

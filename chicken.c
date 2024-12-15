@@ -1,5 +1,7 @@
 #include "raylib.h"
 #include "chicken.h"
+
+#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
@@ -8,10 +10,11 @@
 #define GRID_SIZE 5        // Taille de la grille (5x5)
 #define NUM_CHICKENS 20    // Nombre de poulets
 
-void InitializeGameState(GameState* gameChicken) {
+void InitializeGameState(GameState* gameChicken, UserProfile* userProfile) {
     gameChicken->bet = 100;
     gameChicken->multiplier = 0;
     gameChicken->gameStarted = true;
+    userProfile->gamesPlayed++;
     // Initialisation de la grille 5x5 avec des positions et états par défaut
     for (int i = 0; i < GRID_SIZE; i++) {
         for (int j = 0; j < GRID_SIZE; j++) {
@@ -77,28 +80,32 @@ void UpdateGame(GameState* gameChicken) {
     }
 }
 
-void DrawChicken(int screenWidth, int screenHeight, GameState* gameChicken, UserProfile* userProfile) {
+int DrawChicken(int screenWidth, int screenHeight, GameState* gameChicken, UserProfile* userProfile) {
     ClearBackground(DARKGREEN);
 
     if (!gameChicken->gameStarted) {
         // Afficher l'écran de fin
-        DrawText("Partie finie !", 350, 200, 40, RED);
-        DrawRectangle(350, 500, 100, 40, GREEN);  // Bouton REJOUER
-        DrawText("REJOUER", 355, 510, 20, WHITE);
+        DrawText("Partie finie !", 290, 200, 40, RED);
+        DrawRectangle(350, 450, 100, 40, GREEN);
+        DrawText("REJOUER", 355, 460, 20, WHITE);
+
 
         // Attendre un clic pour rejouer ou revenir au menu
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             Vector2 mousePos = GetMousePosition();
-            Rectangle retryButton = { 350, 500, 100, 40 };
+            Rectangle retryButton = { 350, 450, 100, 40 };
+            Rectangle menuButton = { 350, 500, 100, 40 };
 
             if (CheckCollisionPointRec(mousePos, retryButton)) {
                 userProfile->tokens -= 100;
                 SaveUserProfile(userProfile);
-                InitializeGameState(gameChicken);  // Réinitialiser l'état du jeu
+                InitializeGameState(gameChicken, userProfile);  // Réinitialiser l'état du jeu
             }
         }
-        return;
+        return 0;
     }
+
+
 
     // Dessiner la grille 5x5
     for (int i = 0; i < GRID_SIZE; i++) {
@@ -140,8 +147,6 @@ void DrawChicken(int screenWidth, int screenHeight, GameState* gameChicken, User
             SaveUserProfile(userProfile);
             // Fin de la partie
             gameChicken->gameStarted = false;
-
-
         }
     }
 }

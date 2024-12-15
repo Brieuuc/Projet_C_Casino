@@ -13,9 +13,6 @@ void InitializeOrLoadUserProfile(UserProfile* profile) {
         strncpy(profile->name, "Joueur", MAX_NAME_LENGTH);
         profile->tokens = 200;
         profile->gamesPlayed = 0;
-        profile->gamesWon = 0;
-        profile->gamesLost = 0;
-
         SaveUserProfile(profile);  // Sauvegarder le nouveau profil
     } else {
         // Chargement des données existantes
@@ -39,4 +36,24 @@ void SaveUserProfile(const UserProfile* profile) {
 void DisplayUserBalance(UserProfile* profile) {
     // Afficher le solde des jetons en haut à gauche
     DrawText(TextFormat("Solde: %d", profile->tokens), 10, 10, 20, BLACK);
+}
+
+int DisplayStats(UserProfile* userProfile) {
+    DrawText("Statistiques", 240, 100, 50, BLACK);
+    DrawText("NOM", 350, 200, 25, WHITE);
+    DrawText("Joueur", 350, 230, 20, WHITE);
+    DrawText("Parties jouées", 280, 260, 25, WHITE);
+    DrawText(TextFormat("%d", userProfile->gamesPlayed), 365, 300, 20, WHITE);
+    // Retour
+    DrawRectangle(330, 360, 100, 40, GREEN);
+    DrawText("RETOUR", 335, 370, 20, WHITE);
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+        Vector2 mousePos = GetMousePosition();
+        Rectangle backButton = { 350, 360, 100, 40 };
+        if (CheckCollisionPointRec(mousePos, backButton)) {
+            return 1;
+        }
+    }
+
+    return 0;
 }

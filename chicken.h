@@ -19,9 +19,9 @@ typedef struct gameStateChicken {
     bool isGameIntro;
 } GameState;
 
-void InitializeGameState(GameState* gameChicken);
+void InitializeGameState(GameState* gameChicken,UserProfile* userProfile);
 void UpdateGame(GameState* gameChicken);
-void DrawChicken(int screenWidth, int screenHeight, GameState* gameChicken, UserProfile* userProfile);
+int DrawChicken(int screenWidth, int screenHeight, GameState* gameChicken, UserProfile* userProfile);
 
 
 #endif

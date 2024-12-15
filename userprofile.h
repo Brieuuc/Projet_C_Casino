@@ -21,4 +21,6 @@ void SaveUserProfile(const UserProfile* profile);
 // Afficher le solde des jetons
 void DisplayUserBalance(UserProfile* profile);
 
+// Affiche les stats du joueur
+int DisplayStats(UserProfile* profile);
 #endif
