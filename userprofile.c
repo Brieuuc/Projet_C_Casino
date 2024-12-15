@@ -11,7 +11,7 @@ void InitializeOrLoadUserProfile(UserProfile* profile) {
         printf("Fichier utilisateur non trouvé. Création d'un nouveau profil.\n");
         // Création d'un nouveau profil
         strncpy(profile->name, "Joueur", MAX_NAME_LENGTH);
-        profile->tokens = 200;
+        profile->tokens = 1000;
         profile->gamesPlayed = 0;
         SaveUserProfile(profile);  // Sauvegarder le nouveau profil
     } else {

@@ -15,7 +15,7 @@ typedef struct {
 // Initialiser ou charger le profil utilisateur
 void InitializeOrLoadUserProfile(UserProfile* profile);
 
-// Sauvegarder le profil utilisateur dans un fichier
+// Sauvegarder les infos du joueur
 void SaveUserProfile(const UserProfile* profile);
 
 // Afficher le solde des jetons

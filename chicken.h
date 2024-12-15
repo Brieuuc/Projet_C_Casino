@@ -21,7 +21,8 @@ typedef struct gameStateChicken {
 
 void InitializeGameState(GameState* gameChicken,UserProfile* userProfile);
 void UpdateGame(GameState* gameChicken);
-int DrawChicken(int screenWidth, int screenHeight, GameState* gameChicken, UserProfile* userProfile);
+void DrawChickenGrid(GameState* gameChicken, bool isEnded);
+void DrawChicken(int screenWidth, int screenHeight, GameState* gameChicken, UserProfile* userProfile);
 
 
 #endif
